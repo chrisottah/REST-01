@@ -22,7 +22,8 @@ export async function getListings(params?: GetListingsParams) {
     );
 
     return data;
-  } catch {
-    throw new Error("Failed to fetch listings");
+  } catch (error) {
+  console.error("getListings failed:", error);
+  throw new Error("Failed to fetch listings");
   }
 }
