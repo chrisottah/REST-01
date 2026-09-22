@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary:#FF5A5F
+  --color-primary:#FF5A5;
+  --animate-shimmer: shimmer 1.8s infinite;
 }
 
 .leaflet-container{
@@ -20,4 +21,9 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
+}
+
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
 }

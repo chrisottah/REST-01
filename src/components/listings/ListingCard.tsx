@@ -60,47 +60,23 @@ export default function ListingCard({
         )}
       </div>
 
-      <div className="space-y-1 mt-3 text-sm">
-        <p className="text-gray-500">
-          {location
-            ? `${location.region}, ${location.label}`
-            : listing.locationValue}
-        </p>
-        <p className="text-gray-900 truncate">{listing.title}</p>
-        {reservation ? (
-          <>
-            <p className="text-gray-500 text-sm">
-              {format(new Date(reservation.startDate), "MMM d")} -{" "}
-              {format(new Date(reservation.endDate), "MMM d")}
-            </p>
-            <p className="pt-1 font-semibold text-gray-900">
-              ${reservation.totalPrice}
-            </p>
-          </>
-        ) : (
-          <p className="pt-1">
-            <span className="font-semibold text-gray-900">
-              ${listing.price}
-            </span>{" "}
-            /<span className="text-gray-500">night</span>
-          </p>
-        )}
+      <div className="mt-3 space-y-1 px-1">
+  {/* Location — primary info, brightest */}
+  <p className="truncate text-sm font-medium text-white/90">
+    {listing.location}
+  </p>
 
-        {property && (
-          <div className="mt-3">
-            <p className="text-sm text-gray-500">
-              Listed on {new Date(listing.createdAt).toLocaleDateString()}
-            </p>
-          </div>
-        )}
+  {/* Title — secondary, italic, muted */}
+  <p className="truncate text-sm italic text-white/60">
+    {listing.title}
+  </p>
 
-        {trip && reservation && actionLabel && (
-          <CancelReservationButton
-            actionLabel={actionLabel}
-            reservationId={reservation.id}
-          />
-        )}
-      </div>
+  {/* Price — brightest, anchors the card */}
+  <p className="pt-1 text-base font-semibold text-white">
+    {listing.price}
+    <span className="ml-1 text-sm font-normal text-white/70">/ night</span>
+  </p>
+</div>
     </div>
   );
 }
