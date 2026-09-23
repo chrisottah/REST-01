@@ -52,17 +52,18 @@ export default async function Home(props: { searchParams: SearchParams }) {
         {/* Quiet fact panel — hairline-divided, informational rather than decorative */}
         <div className="relative z-10 px-7 py-6 backdrop-blur-sm lg:mb-1">
           <dl className="divide-y divide-[#dcba66]/30">
+            
             <div className="flex items-baseline justify-between py-2.5 first:pt-0 last:pb-0">
-              <dt className="text-sm text-[#f3efe7]/50">Every listing</dt>
-              <dd className="text-sm text-[#f3efe7]/90">Personally verified</dd>
-            </div>
-            <div className="flex items-baseline justify-between py-2.5 first:pt-0 last:pb-0">
-              <dt className="text-sm text-[#f3efe7]/50">Booking fees</dt>
-              <dd className="text-sm text-[#f3efe7]/90">None, ever</dd>
+              <dt className="text-sm text-[#f3efe7]/50">Earnings</dt>
+              <dd className="text-sm text-[#f3efe7]/90"> No Commission. Keep 100%</dd>
             </div>
             <div className="flex items-baseline justify-between py-2.5 first:pt-0 last:pb-0">
               <dt className="text-sm text-[#f3efe7]/50">Cancellations</dt>
               <dd className="text-sm text-[#f3efe7]/90">Flexible by default</dd>
+            </div>
+            <div className="flex items-baseline justify-between py-2.5 first:pt-0 last:pb-0">
+              <dt className="text-sm text-[#f3efe7]/50">Every listing</dt>
+              <dd className="text-sm text-[#f3efe7]/90">Personally verified</dd>
             </div>
           </dl>
         </div>
