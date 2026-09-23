@@ -7,11 +7,42 @@ import LoginModal from "@/modals/LoginModal";
 import { Toaster } from "react-hot-toast";
 import CreateListingModal from "@/modals/CreateListingModal";
 import FilterModal from "@/modals/FilterModal";
+import localFont from "next/font/local";
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const kiona = localFont({
+  src: "../../public/fonts/Kiona-Regular.woff",
+  variable: "--font-kiona",
+  display: "swap",
+});
+
+const kionaItalic = localFont({
+  src: "../../public/fonts/Kiona-Italic.woff",
+  variable: "--font-kiona-italic",
+  display: "swap",
+});
+
+const nouvelle = localFont({
+  src: "../../public/fonts/nouvelle_vague.woff",
+  variable: "--font-nouvelle",
+  display: "swap",
+});
+
+const brilo = localFont({
+  src: "../../public/fonts/Brilo.woff",
+  variable: "--font-brilo",
+  display: "swap",
+});
+
+const moonhouse = localFont({
+  src: "../../public/fonts/Moonhouse.woff",
+  variable: "--font-moonhouse",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +58,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#0a0a0b]">
       <body
-        className={`${poppins.className} min-h-screen bg-[#0a0a0b] text-white antialiased`}
+        className={` ${poppins.variable} ${kiona.variable} ${kionaItalic.variable} ${moonhouse.variable} ${brilo.variable} ${nouvelle.variable} min-h-screen bg-[#0a0a0b] text-white antialiased`}
       >
         <Navbar />
         {children}

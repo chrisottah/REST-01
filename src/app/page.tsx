@@ -2,6 +2,7 @@ import Listings from "@/components/listings/Listings";
 import ListingCardSkeleton from "@/components/skeletons/ListingCardSkeleton";
 import StayTypeTabs from "@/components/listings/StayTypeTabs";
 import { Suspense } from "react";
+import localFont from "next/font/local";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -13,40 +14,66 @@ export default async function Home(props: { searchParams: SearchParams }) {
   const stay = rawStay === "long" ? "long" : "short";
 
   return (
-    <main className="relative min-h-screen w-full bg-[#0a0a0b] text-white antialiased selection:bg-white selection:text-black">
-      {/* Ambient background glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
-      >
-        <div className="absolute -top-40 left-1/2 h-130 w-205 -translate-x-1/2 rounded-full bg-linear-to-br from-indigo-500/30 via-fuchsia-500/20 to-cyan-400/20 blur-[120px]" />
-        <div className="absolute bottom-0 right-0 h-105 w-105 rounded-full bg-emerald-400/10 blur-[100px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-size-[56px_56px] mask-[radial-gradient(ellipse_at_center,black_40%,transparent_75%)]" />
+    <main className="relative min-h-screen w-full bg-[#0e0d0b] text-[#f3efe7] antialiased selection:bg-[#e8c46b] selection:text-[#0e0d0b]">
+      {/* Ambient background — warm charcoal with a brass + pine duo-tone, plus fine grain */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-56 -left-40 h-[38rem] w-[38rem] rounded-full bg-[#e8c46b]/[0.08] blur-[140px]" />
+        <div className="absolute -bottom-40 -right-32 h-[32rem] w-[32rem] rounded-full bg-[#2f3b2e]/25 blur-[130px]" />
+        <div
+          className="absolute inset-0 opacity-[0.05] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
       </div>
 
-      {/* Hero */}
-      <section className="flex w-full flex-col items-center px-6 pt-32 pb-10 text-center sm:px-10 sm:pt-40 sm:pb-12 lg:px-16">
-        <h1 className="max-w-4xl text-balance bg-linear-to-b from-white via-white to-white/90 bg-clip-text text-5xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-6xl md:text-7xl">
-          Discover spaces worth
-          <br />
-          <span className="italic font-light text-white">
-            coming home to.
-          </span>
-        </h1>
+      {/* Hero — asymmetric split: headline left, a quiet fact panel right */}
+      <section className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-6 pt-28 pb-14 sm:px-10 sm:pt-36 lg:grid-cols-[1.4fr_0.6fr] lg:items-end lg:gap-8 lg:px-16 lg:pt-44 lg:pb-20">
+        <div>
+          <h1 className="font-moonhouse uppercase text-balance text-[2.75rem] font-semibold leading-[1.04] tracking-tight sm:text-6xl md:text-[4.75rem]">
+            Spaces worth
+            <br />
+            <span className="font-nouvelle  text-[.8em] font-normal italic text-[#e8c46b]/95">
+              coming home to
+            </span>
+          </h1>
 
-        <p className="mt-6 max-w-xl text-balance text-base leading-relaxed text-white/70 sm:text-lg">
-          A handpicked collection of listings, thoughtfully designed for the way
-          you actually want to live.
-        </p>
+          <p className="mt-7 max-w-md text-balance text-[1.05rem] leading-relaxed text-[#f3efe7]/60">
+            A handpicked collection of listings, thoughtfully chosen for the way
+            you actually want to live.
+          </p>
+        </div>
+
+        {/* Quiet fact panel — hairline-divided, informational rather than decorative */}
+        <div className=" px-7 py-6 backdrop-blur-sm lg:mb-1">
+          <dl className="divide-y divide-[#dcba66]/30">
+            <div className="flex items-baseline justify-between py-2.5 first:pt-0 last:pb-0">
+              <dt className="text-sm text-[#f3efe7]/50">Every listing</dt>
+              <dd className="text-sm text-[#f3efe7]/90">Personally verified</dd>
+            </div>
+            <div className="flex items-baseline justify-between py-2.5 first:pt-0 last:pb-0">
+              <dt className="text-sm text-[#f3efe7]/50">Booking fees</dt>
+              <dd className="text-sm text-[#f3efe7]/90">None, ever</dd>
+            </div>
+            <div className="flex items-baseline justify-between py-2.5 first:pt-0 last:pb-0">
+              <dt className="text-sm text-[#f3efe7]/50">Cancellations</dt>
+              <dd className="text-sm text-[#f3efe7]/90">Flexible by default</dd>
+            </div>
+          </dl>
+        </div>
       </section>
 
       {/* Stay type tabs */}
-      <section className="w-full px-6 pb-10 sm:px-10 lg:px-16">
-        <StayTypeTabs active={stay} />
+      <section className="mx-auto w-full max-w-7xl px-6 pb-8 sm:px-10 lg:px-16">
+        <div className="h-px w-full bg-white/10" />
+        <div className="pt-8">
+          <StayTypeTabs active={stay} />
+        </div>
       </section>
 
       {/* Listings */}
-      <section className="w-full px-6 pb-24 sm:px-10 lg:px-16">
+      <section className="mx-auto w-full max-w-7xl px-6 pb-28 sm:px-10 lg:px-16">
         <Suspense fallback={<ListingGridSkeleton />}>
           <Listings searchParams={searchParams} />
         </Suspense>
