@@ -3,6 +3,7 @@ import ListingCardSkeleton from "@/components/skeletons/ListingCardSkeleton";
 import StayTypeTabs from "@/components/listings/StayTypeTabs";
 import { Suspense } from "react";
 import NeonRoomBackground from "@/components/general/NeonRoomBackground";
+import Footer from "@/components/footer/Footer";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -81,6 +82,9 @@ export default async function Home(props: { searchParams: SearchParams }) {
           <Listings searchParams={searchParams} />
         </Suspense>
       </section>
+
+            {/* Footer */}
+      <Footer />
     </main>
   );
 }
