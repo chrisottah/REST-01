@@ -1,3 +1,5 @@
+import prisma from "@/lib/prisma";
+
 export type GetListingsParams = {
   category?: string;
   locationValue?: string;
@@ -7,25 +9,27 @@ export type GetListingsParams = {
 
 export async function getListings(params?: GetListingsParams) {
   try {
-    const searchParams = new URLSearchParams();
+    const { category, locationValue, minPrice, maxPrice } = params ?? {};
 
-    if (params?.category) searchParams.set("category", params.category);
-    if (params?.locationValue) searchParams.set("locationValue", params.locationValue);
-    if (params?.minPrice !== undefined) searchParams.set("minPrice", String(params.minPrice));
-    if (params?.maxPrice !== undefined) searchParams.set("maxPrice", String(params.maxPrice));
-
-    const query = searchParams.toString();
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/listings${query ? `?${query}` : ""}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
+    const listings = await prisma.listing.findMany({
+      where: {
+        ...(category && { category }),
+        ...(locationValue && { locationValue }),
+        ...(minPrice !== undefined || maxPrice !== undefined
+          ? {
+              price: {
+                ...(minPrice !== undefined ? { gte: minPrice } : {}),
+                ...(maxPrice !== undefined ? { lte: maxPrice } : {}),
+              },
+            }
+          : {}),
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch listings: ${response.status} ${response.statusText}`);
-    }
-
-    return response.json();
+    return listings;
   } catch (error) {
     console.error("getListings failed:", error);
     throw new Error("Failed to fetch listings");
