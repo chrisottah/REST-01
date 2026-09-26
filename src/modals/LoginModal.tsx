@@ -1,191 +1,213 @@
-"use client";
-import Modal from "./Modal";
-import { useAuthModal } from "@/store/useAuthModalStore";
-import Button from "@/components/ui/Button";
-import { FcGoogle } from "react-icons/fc";
-import Input from "@/components/ui/Input";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import toast from "react-hot-toast";
+'use client'
+import Modal from './Modal'
+import { useAuthModal } from '@/store/useAuthModalStore'
+import Button from '@/components/ui/Button'
+import { FcGoogle } from 'react-icons/fc'
+import Input from '@/components/ui/Input'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { authClient } from '@/lib/auth-client'
+import toast from 'react-hot-toast'
 
 interface LoginValues {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
-type LoginErrors = Partial<Record<keyof LoginValues, string>>;
+type LoginErrors = Partial<Record<keyof LoginValues, string>>
 
 export default function LoginModal() {
-  const { isLoginOpen, closeLogin, openRegister } = useAuthModal();
+  const { isLoginOpen, closeLogin, openRegister } = useAuthModal()
 
   const [values, setValues] = useState<LoginValues>({
-    email: "",
-    password: "",
-  });
+    email: '',
+    password: '',
+  })
 
-  const [errors, setErrors] = useState<LoginErrors>({});
-  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<LoginErrors>({})
+  const [loading, setLoading] = useState(false)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
     setValues((prev) => ({
       ...prev,
       [name]: value,
-    }));
+    }))
 
     setErrors((prev) => ({
       ...prev,
       [name]: undefined,
-    }));
-  };
+    }))
+  }
 
   const validate = () => {
-    const newErrors: LoginErrors = {};
+    const newErrors: LoginErrors = {}
 
     if (!values.email.trim()) {
-      newErrors.email = "Email field is required!";
+      newErrors.email = 'Email field is required!'
     } else if (!/^\S+@\S+\.\S+$/.test(values.email)) {
-      newErrors.email = "Enter a valid email!";
+      newErrors.email = 'Enter a valid email!'
     }
 
     if (!values.password.trim()) {
-      newErrors.password = "Password field is required!";
+      newErrors.password = 'Password field is required!'
     } else if (values.password.length < 6) {
-      newErrors.password = "Password must be  atleast 6 characters!";
+      newErrors.password = 'Password must be at least 6 characters!'
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (!validate()) return;
+    if (!validate()) return
 
-    setLoading(true);
+    setLoading(true)
 
     try {
       const { error } = await authClient.signIn.email({
         email: values.email,
         password: values.password,
-      });
+      })
 
       if (error) {
         toast(error.message as string, {
           style: {
-            background: "#FF5A5F",
-            color: "white",
+            background: '#3b1214',
+            color: '#f5f3ee',
+            border: '1px solid rgba(248,113,113,0.3)',
           },
-        });
-        return;
+        })
+        return
       }
 
-      toast("Logged in successfully", {
+      toast('Logged in successfully', {
         style: {
-          background: "#FF5A5F",
-          color: "white",
+          background: '#0a0a0a',
+          color: '#e8c46b',
+          border: '1px solid rgba(232,196,107,0.3)',
         },
-      });
-      setValues({ email: "", password: "" });
-      closeLogin();
-      router.refresh();
+      })
+      setValues({ email: '', password: '' })
+      closeLogin()
+      router.refresh()
     } catch (error) {
       toast(
         error instanceof Error
           ? error.message
-          : "Something went wrong. Please try again.",
+          : 'Something went wrong. Please try again.',
         {
           style: {
-            background: "#FF5A5F",
-            color: "white",
+            background: '#3b1214',
+            color: '#f5f3ee',
+            border: '1px solid rgba(248,113,113,0.3)',
           },
         },
-      );
+      )
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const signInWithGoogle = async () => {
     try {
       await authClient.signIn.social({
-        provider: "google",
-      });
+        provider: 'google',
+      })
     } catch {
-      toast("Google signin failed", {
+      toast('Google sign-in failed', {
         style: {
-          background: "#FF5A5F",
-          color: "white",
+          background: '#3b1214',
+          color: '#f5f3ee',
+          border: '1px solid rgba(248,113,113,0.3)',
         },
-      });
+      })
     }
-  };
+  }
+
   return (
-    <Modal onClose={closeLogin} isOpen={isLoginOpen} title="Login">
-      <div className="mb-6 space-y-1">
-        <h2 className="text-2xl font-semibold text-gray-900">
-          Welcome to Airbnb
+    <Modal onClose={closeLogin} isOpen={isLoginOpen} title='Sign in'>
+      {/* ───────── Heading ───────── */}
+      <div className='mb-8 space-y-2'>
+        <h2 className='font-nouvelle text-2xl font-bold italic text-[#e8c46b] sm:text-3xl'>
+          Welcome back
         </h2>
-        const
-        <p className="text-sm text-gray-500">Login to account</p>
+        <p className='text-xs uppercase tracking-[0.18em] text-[#f5f3ee]/40'>
+          Sign in to your account
+        </p>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-8">
+      <form onSubmit={onSubmit} className='space-y-6'>
+        {/* ───────── Inputs ───────── */}
         <Input
-          name="email"
-          label="Email"
-          type="text"
+          name='email'
+          label='Email'
+          type='email'
           value={values.email}
           error={errors.email}
           onChange={handleChange}
         />
         <Input
-          name="password"
-          label="Password"
-          type="text"
+          name='password'
+          label='Password'
+          type='password'
           value={values.password}
           error={errors.password}
           onChange={handleChange}
         />
-        <Button disabled={loading} loading={loading} type="submit">
-          Continue
-        </Button>
 
-        {/* divider */}
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300" />
+        {/* ───────── Primary CTA ───────── */}
+        <div className='pt-2'>
+          <Button
+            disabled={loading}
+            loading={loading}
+            type='submit'
+            variant='outline'
+          >
+            Continue
+          </Button>
+        </div>
+
+        {/* ───────── Divider ───────── */}
+        <div className='relative my-8'>
+          <div className='absolute inset-0 flex items-center'>
+            <div className='h-px w-full bg-white/[0.08]' />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-4  text-gray-500">Or</span>
+          <div className='relative flex justify-center'>
+            <span className='bg-black px-4 text-[10px] uppercase tracking-[0.2em] text-[#fff]/35'>
+              Or continue with
+            </span>
           </div>
         </div>
 
+        {/* ───────── Google ───────── */}
         <Button
           onClick={signInWithGoogle}
-          type="button"
-          variant="outline"
-          icon={<FcGoogle size={22} />}
+          type='button'
+          variant='outline'
+          icon={<FcGoogle size={18} />}
         >
           Continue with Google
         </Button>
 
-        {/* footer */}
-        <p className="text-gray-500 text-center text-sm mt-6">
-          Don&apos;t have an account?{" "}
-          <span
+        {/* ───────── Footer ───────── */}
+        <p className='pt-2 text-center text-sm text-[#f5f3ee]/50'>
+          Don&apos;t have an account?{' '}
+          <button
+            type='button'
             onClick={openRegister}
-            className="text-primary cursor-pointer font-semibold hover:underline"
+            className='group relative ml-1 inline-block text-[#e8c46b] transition-colors hover:text-[#f0d98a]'
           >
             Register
-          </span>
+            <span className='absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-[#e8c46b] transition-transform duration-300 group-hover:scale-x-100' />
+          </button>
         </p>
       </form>
     </Modal>
-  );
+  )
 }
