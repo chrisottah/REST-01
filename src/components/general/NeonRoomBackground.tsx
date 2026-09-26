@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type * as THREE from "three";
 
 /**
  * A slow-rotating neon wireframe room — bed, dresser, nightstands, paintings,

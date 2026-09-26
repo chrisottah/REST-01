@@ -185,7 +185,7 @@ export default function RegisterModal() {
             disabled={loading}
             loading={loading}
             type="submit"
-            variant="white"
+            variant="outline"
           >
             Continue
           </Button>
@@ -207,7 +207,7 @@ export default function RegisterModal() {
         <Button
           onClick={signInWithGoogle}
           type="button"
-          variant="white"
+          variant="outline"
           icon={<FcGoogle size={18} />}
         
         >

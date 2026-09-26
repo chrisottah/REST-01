@@ -63,7 +63,7 @@ export default function ListingCard({
       <div className="mt-3 space-y-1 px-1">
   {/* Location — primary info, brightest */}
   <p className="truncate text-sm font-medium text-white/90">
-    {listing.location}
+    {location?.label ?? listing.locationValue}
   </p>
 
   {/* Title — secondary, italic, muted */}
